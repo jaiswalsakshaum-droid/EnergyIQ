@@ -1,24 +1,65 @@
-# Pixel Perfect Match
+# EnergyIQ — AI-Powered Building Energy Intelligence
 
-Implement exactly the screenshot and nothing else
+EnergyIQ is an enterprise building energy analytics platform providing real-time consumption tracking, predictive load forecasting, automated anomaly detection, and interactive savings simulation.
 
-This project was built with [Lovable](https://lovable.dev).
+## Repository Structure
 
-## Build with Lovable
+```
+EnergyIQ/
+├── frontend/               # Complete React + TypeScript + Tailwind CSS application
+│   ├── src/
+│   │   ├── components/     # UI primitives (Radix UI + Tailwind)
+│   │   ├── hooks/          # Custom hooks (e.g., use-mobile)
+│   │   ├── lib/            # Centralized energy data & savings calculations
+│   │   ├── routes/         # 6 dashboard views (Overview, Forecast, Anomalies, Models, Simulator, Data)
+│   │   ├── test/           # Vitest unit test suite
+│   │   └── styles.css      # SaaS design system (navy sidebar, light canvas, cards)
+│   ├── public/             # Static assets (favicons, robots.txt)
+│   ├── package.json        # Frontend scripts and dependencies
+│   ├── vite.config.ts      # Vite build configuration
+│   └── README.md           # Frontend documentation
+│
+├── backend/                # Backend API service & architecture
+│   ├── main.py             # FastAPI reference service
+│   ├── schemas.py          # Pydantic v2 data models matching frontend types
+│   ├── requirements.txt    # Python dependencies (FastAPI, Uvicorn, Pandas, Scikit-learn)
+│   └── README.md           # API specification & architecture guide
+│
+└── package.json            # Root workspace scripts delegating to frontend/backend
+```
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/758ddc99-7c3d-47dd-b79c-d202fd0d2a73).
+## Quick Start
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+### Frontend (Dashboard UI)
+```bash
+# Navigate to frontend
+cd frontend
 
-## Development
+# Install dependencies
+npm install
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+# Start development server
 npm run dev
+
+# Run unit tests
+npm test
+
+# Build production bundle
+npm run build
+```
+
+Or run directly from root:
+```bash
+npm run dev
+npm test
+npm run build
+```
+
+### Backend (Reference Service)
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
 ```
