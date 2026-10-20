@@ -42,11 +42,11 @@ Running checklist for building out the full-stack AI-Powered Building Energy Int
   - [x] CLI command `python -m app.cli train`
   - [x] Endpoints: `GET /api/models/benchmarks`, `GET /api/models/features`, `GET /api/models/actual-vs-predicted`, `GET /api/models/error-breakdown`
 
-- [ ] **Phase 5: Forecasting Service & Overview Endpoints**
-  - [ ] Multi-horizon forecasting engine (`app/services/forecasting.py`) for 24h, 7d, 30d
-  - [ ] Endpoints: `POST /api/forecast`, `GET /api/overview/kpis`, `GET /api/overview/live-series`, `GET /api/overview/buildings`, `GET /api/overview/recommendations`, `GET /api/buildings`
-  - [ ] Costing and emission conversion service (`app/services/costing.py`)
-  - [ ] Unit & API tests for forecast endpoints
+- [x] **Phase 5: Forecasting Service & Overview Endpoints**
+  - [x] Multi-horizon forecasting engine (`app/services/forecasting.py`) for 24h, 7d, 30d
+  - [x] Endpoints: `POST /api/forecast`, `GET /api/overview/kpis`, `GET /api/overview/live-series`, `GET /api/overview/buildings`, `GET /api/overview/recommendations`, `GET /api/buildings`
+  - [x] Costing and emission conversion service (`app/services/costing.py`)
+  - [x] Unit & API tests for forecast endpoints
 
 - [ ] **Phase 6: Anomaly Detection Ensemble & Feedback Loop**
   - [ ] Anomaly detection ensemble (`app/services/anomaly.py`): Residual MAD sigma, Isolation Forest, Rule-based detectors

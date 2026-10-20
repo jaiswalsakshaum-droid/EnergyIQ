@@ -43,4 +43,4 @@ class ForecastResponse(CamelModel):
     peak_demand_time: str
     points: List[ForecastPoint]
     daily_pattern: DailyPattern
-    model_description: str
+    model_description: str = "Ensemble regression model trained on hourly weather and occupancy signals."
