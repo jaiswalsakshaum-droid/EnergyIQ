@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.db.session import init_db
-from app.api.routers import health, overview, buildings, simulator
+from app.api.routers import health, overview, buildings, simulator, data
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -33,6 +33,7 @@ def create_app() -> FastAPI:
     app.include_router(overview.router, prefix=settings.API_V1_STR)
     app.include_router(buildings.router, prefix=settings.API_V1_STR)
     app.include_router(simulator.router, prefix=settings.API_V1_STR)
+    app.include_router(data.router, prefix=settings.API_V1_STR)
 
     return app
 

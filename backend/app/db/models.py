@@ -36,6 +36,7 @@ class MeterReading(Base):
     humidity = Column(Float, nullable=True)
     occupancy = Column(Float, nullable=True)  # estimated 0.0 to 1.0 fraction
     is_synthetic = Column(Boolean, default=True)
+    is_anomaly_injected = Column(Boolean, default=False)
 
     __table_args__ = (
         Index("idx_building_time", "building", "timestamp", unique=True),

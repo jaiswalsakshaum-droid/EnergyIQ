@@ -15,15 +15,15 @@ Running checklist for building out the full-stack AI-Powered Building Energy Int
   - [x] Pytest suite setup and verification (`tests/test_health_and_schemas.py`)
   - [x] Verification: tests green & git commit
 
-- [ ] **Phase 2: Synthetic Data Generator & Data Ingestion Layer**
-  - [ ] Synthetic generator (`app/services/synthetic.py`) for 5 buildings over 12 months hourly
-  - [ ] Realistic seasonal, diurnal, weather (CDH), Indian holiday, and occupancy patterns
-  - [ ] Ground-truth labeled anomalies injection (HVAC overnight, spikes, drops, sensor faults, drift)
-  - [ ] Data ingestion service (`app/services/ingest.py`) for validation, gaps, duplicates, clean parsing
-  - [ ] CSV upload endpoint `POST /api/data/upload` with `?commit=true|false` and quality reporting
-  - [ ] `load_bdg2()` / `load_ashrae()` external adapters structure
-  - [ ] CLI command `python -m app.cli seed`
-  - [ ] Tests for synthetic data generator, data validator & upload endpoint
+- [x] **Phase 2: Synthetic Data Generator & Data Ingestion Layer**
+  - [x] Synthetic generator (`app/services/synthetic.py`) for 5 buildings over 12 months hourly
+  - [x] Realistic seasonal, diurnal, weather (CDH), Indian holiday, and occupancy patterns
+  - [x] Ground-truth labeled anomalies injection (HVAC overnight, spikes, drops, sensor faults, drift)
+  - [x] Data ingestion service (`app/services/ingest.py`) for validation, gaps, duplicates, clean parsing
+  - [x] CSV upload endpoint `POST /api/data/upload` with `?commit=true|false` and quality reporting
+  - [x] `load_bdg2()` / `load_ashrae()` external adapters structure
+  - [x] CLI command `python -m app.cli seed`
+  - [x] Tests for synthetic data generator, data validator & upload endpoint
 
 - [ ] **Phase 3: Feature Engineering & Leakage Protection**
   - [ ] Feature engineering pipeline (`app/services/features.py`)
