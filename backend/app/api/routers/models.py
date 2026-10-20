@@ -124,24 +124,12 @@ def get_error_breakdown():
         ],
     )
 
+from app.services.drift import evaluate_dataset_drift
+
 @router.get("/drift", response_model=ModelDriftReport)
-def get_model_drift():
+def get_model_drift(db: Session = Depends(get_db)):
     """Returns Kolmogorov-Smirnov and PSI covariate drift statistics."""
-    # Wire to drift service in Phase 8; currently returns valid schema
-    return ModelDriftReport(
-        status="Stable",
-        summary="Covariate distributions remain well-calibrated (PSI < 0.10). No statistically significant drift detected.",
-        p_value=0.28,
-        psi_scores={
-            "temperature_c": 0.042,
-            "occupancy": 0.038,
-            "lag_24h": 0.051,
-            "cooling_degree_hours": 0.045,
-        },
-        rolling_mae_change_pct=-2.4,
-        last_review="Evaluated across rolling 14-day window",
-        badge="Healthy",
-    )
+    return evaluate_dataset_drift(db)
 
 from app.services.anomaly import evaluate_anomaly_metrics
 
@@ -154,7 +142,7 @@ def _run_retraining_task(job_id: str):
     """Background task function to retrain all models."""
     JOBS_STORE[job_id]["status"] = "running"
     try:
-        train_and_evaluate_all(test_days=14, tune_xgboost=True)
+        train_and_evaluate_all(test_days=14, tune_xgboost=False)
         JOBS_STORE[job_id]["status"] = "completed"
     except Exception as e:
         JOBS_STORE[job_id]["status"] = "failed"

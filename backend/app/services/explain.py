@@ -58,7 +58,7 @@ def get_tree_explainer() -> Tuple[Any, Any]:
     except Exception:
         return None, model
 
-def compute_global_shap_importance(db: Session, sample_size: int = 120) -> List[FeatureImportanceItem]:
+def compute_global_shap_importance(db: Session, sample_size: int = 40) -> List[FeatureImportanceItem]:
     """
     Computes global mean absolute SHAP values: E[|SHAP|] across a sample of recent data.
     Cached for fast repeated retrieval.
