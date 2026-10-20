@@ -25,13 +25,13 @@ Running checklist for building out the full-stack AI-Powered Building Energy Int
   - [x] CLI command `python -m app.cli seed`
   - [x] Tests for synthetic data generator, data validator & upload endpoint
 
-- [ ] **Phase 3: Feature Engineering & Leakage Protection**
-  - [ ] Feature engineering pipeline (`app/services/features.py`)
-  - [ ] Calendar, cyclic hour/dow/month sin/cos, lagged target (1h, 2h, 24h, 48h, 168h)
-  - [ ] Shifted rolling window statistics (6h, 24h, 168h mean, std, min, max) without leakage
-  - [ ] Weather CDH/HDH and interaction features
-  - [ ] Future weather climatology estimator & `WeatherProvider` pluggable interface
-  - [ ] Pytest target leakage unit test (perturb future target assertion)
+- [x] **Phase 3: Feature Engineering & Leakage Protection**
+  - [x] Feature engineering pipeline (`app/services/features.py`)
+  - [x] Calendar, cyclic hour/dow/month sin/cos, lagged target (1h, 2h, 24h, 48h, 168h)
+  - [x] Shifted rolling window statistics (6h, 24h, 168h mean, std, min, max) without leakage
+  - [x] Weather CDH/HDH and interaction features
+  - [x] Future weather climatology estimator & `WeatherProvider` pluggable interface
+  - [x] Pytest target leakage unit test (perturb future target assertion)
 
 - [ ] **Phase 4: Model Training, Evaluation, Registry & Prediction Intervals**
   - [ ] Model training service (`app/services/training.py`) with chronological walk-forward TimeSeriesSplit
