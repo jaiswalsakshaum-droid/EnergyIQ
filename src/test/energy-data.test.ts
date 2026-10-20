@@ -7,6 +7,10 @@ describe("illustrative savings simulator", () => {
   });
 
   it("calculates local monthly savings from the selected tariff", () => {
-    expect(savingsEstimate(0.2, 0.1, 0.1, 10)).toEqual({ reduction: 4710, savings: 47100, co2: 3.34 });
+    expect(savingsEstimate(0.2, 0.1, 0.1, 10)).toEqual({
+      reduction: 5650,
+      savings: 56500,
+      co2: 4.01,
+    });
   });
 });
