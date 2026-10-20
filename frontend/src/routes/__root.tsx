@@ -78,14 +78,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "EnergyIQ | AI-Powered Building Energy Intelligence" },
+      {
+        name: "description",
+        content:
+          "AI-powered building energy intelligence platform for multi-building commercial and campus facilities with real-time forecasting, anomaly detection, and savings simulation.",
+      },
+      { name: "author", content: "EnergyIQ" },
+      { property: "og:title", content: "EnergyIQ | AI-Powered Building Energy Intelligence" },
+      {
+        property: "og:description",
+        content:
+          "Multi-horizon energy forecasting, ensemble anomaly detection, SHAP explainability, and what-if savings simulator.",
+      },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
