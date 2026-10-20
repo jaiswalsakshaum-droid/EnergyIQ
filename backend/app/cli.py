@@ -19,13 +19,10 @@ def main():
         print("--> Database seeding complete.")
 
     if args.command in ["train", "all"]:
-        print("--> Training models (Phase 4)...")
-        # Placeholder for training in Phase 4
-        try:
-            from app.services.training import train_all_models
-            train_all_models()
-        except ImportError:
-            print("Note: Model training service will be active in Phase 4.")
+        print("--> Training and evaluating all forecasting models with walk-forward CV...")
+        from app.services.training import train_and_evaluate_all
+        train_and_evaluate_all(test_days=14, tune_xgboost=True)
+        print("--> Model training complete and artifacts persisted.")
 
     if args.command in ["detect", "all"]:
         print("--> Running anomaly detection ensemble (Phase 6)...")

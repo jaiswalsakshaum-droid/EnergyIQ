@@ -33,14 +33,14 @@ Running checklist for building out the full-stack AI-Powered Building Energy Int
   - [x] Future weather climatology estimator & `WeatherProvider` pluggable interface
   - [x] Pytest target leakage unit test (perturb future target assertion)
 
-- [ ] **Phase 4: Model Training, Evaluation, Registry & Prediction Intervals**
-  - [ ] Model training service (`app/services/training.py`) with chronological walk-forward TimeSeriesSplit
-  - [ ] Models: Seasonal Naive, Moving Average, Ridge, Random Forest, XGBoost
-  - [ ] Performance metrics: MAE, RMSE, MAPE, R², MASE, train/inference durations
-  - [ ] Quantile prediction intervals (0.05 / 0.95 bounds) & empirical coverage reporting
-  - [ ] Model artifact persistence in `models/` and DB metadata tracking in `model_runs`
-  - [ ] CLI command `python -m app.cli train`
-  - [ ] Endpoints: `GET /api/models/benchmarks`, `GET /api/models/features`, `GET /api/models/actual-vs-predicted`, `GET /api/models/error-breakdown`
+- [x] **Phase 4: Model Training, Evaluation, Registry & Prediction Intervals**
+  - [x] Model training service (`app/services/training.py`) with chronological walk-forward TimeSeriesSplit
+  - [x] Models: Seasonal Naive, Moving Average, Ridge, Random Forest, XGBoost
+  - [x] Performance metrics: MAE, RMSE, MAPE, R², MASE, train/inference durations
+  - [x] Quantile prediction intervals (0.05 / 0.95 bounds) & empirical coverage reporting
+  - [x] Model artifact persistence in `models/` and DB metadata tracking in `model_runs`
+  - [x] CLI command `python -m app.cli train`
+  - [x] Endpoints: `GET /api/models/benchmarks`, `GET /api/models/features`, `GET /api/models/actual-vs-predicted`, `GET /api/models/error-breakdown`
 
 - [ ] **Phase 5: Forecasting Service & Overview Endpoints**
   - [ ] Multi-horizon forecasting engine (`app/services/forecasting.py`) for 24h, 7d, 30d
