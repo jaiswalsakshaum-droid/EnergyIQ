@@ -48,12 +48,12 @@ Running checklist for building out the full-stack AI-Powered Building Energy Int
   - [x] Costing and emission conversion service (`app/services/costing.py`)
   - [x] Unit & API tests for forecast endpoints
 
-- [ ] **Phase 6: Anomaly Detection Ensemble & Feedback Loop**
-  - [ ] Anomaly detection ensemble (`app/services/anomaly.py`): Residual MAD sigma, Isolation Forest, Rule-based detectors
-  - [ ] Event merging into consolidated incident records
-  - [ ] Evaluation against injected ground truth: Precision, Recall, F1, mean detection delay
-  - [ ] Endpoints: `GET /api/anomalies`, `PATCH /api/anomalies/{id}/status`, `GET /api/anomalies/export.csv`, `GET /api/models/anomaly-metrics`
-  - [ ] Persistent status updates and threshold feedback loop in SQLite
+- [x] **Phase 6: Anomaly Detection Ensemble & Feedback Loop**
+  - [x] Anomaly detection ensemble (`app/services/anomaly.py`): Residual MAD sigma, Isolation Forest, Rule-based detectors
+  - [x] Event merging into consolidated incident records
+  - [x] Evaluation against injected ground truth: Precision, Recall, F1, mean detection delay
+  - [x] Endpoints: `GET /api/anomalies`, `PATCH /api/anomalies/{id}/status`, `GET /api/anomalies/export.csv`, `GET /api/models/anomaly-metrics`
+  - [x] Persistent status updates and threshold feedback loop in SQLite
 
 - [ ] **Phase 7: Explainability Layer (SHAP & Plain Language)**
   - [ ] SHAP computation service (`app/services/explain.py`)

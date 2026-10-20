@@ -25,13 +25,17 @@ def main():
         print("--> Model training complete and artifacts persisted.")
 
     if args.command in ["detect", "all"]:
-        print("--> Running anomaly detection ensemble (Phase 6)...")
-        # Placeholder for anomaly detection in Phase 6
+        print("--> Running anomaly detection ensemble and evaluating metrics against ground truth...")
+        from app.services.anomaly import run_anomaly_detection_pipeline, evaluate_anomaly_metrics
+        from app.db.session import SessionLocal
+        db = SessionLocal()
         try:
-            from app.services.anomaly import run_anomaly_detection
-            run_anomaly_detection()
-        except ImportError:
-            print("Note: Anomaly detection service will be active in Phase 6.")
+            incidents = run_anomaly_detection_pipeline(db)
+            metrics = evaluate_anomaly_metrics(db)
+            print(f"--> Detected {len(incidents)} consolidated incidents.")
+            print(f"--> Evaluation against Ground Truth: Precision={metrics.precision}%, Recall={metrics.recall}%, F1={metrics.f1_score}%, Delay={metrics.mean_detection_delay_minutes}min")
+        finally:
+            db.close()
 
 if __name__ == "__main__":
     main()

@@ -138,20 +138,12 @@ def get_model_drift():
         badge="Healthy",
     )
 
+from app.services.anomaly import evaluate_anomaly_metrics
+
 @router.get("/anomaly-metrics", response_model=AnomalyMetricsReport)
-def get_anomaly_metrics():
+def get_anomaly_metrics(db: Session = Depends(get_db)):
     """Returns anomaly detector precision, recall, and detection delay against injected ground truth."""
-    # Wire to anomaly ensemble in Phase 6
-    return AnomalyMetricsReport(
-        precision=91.3,
-        recall=86.4,
-        f1_score=88.8,
-        mean_detection_delay_minutes=24.0,
-        total_evaluated=22,
-        true_positives=19,
-        false_positives=2,
-        false_negatives=3,
-    )
+    return evaluate_anomaly_metrics(db)
 
 def _run_retraining_task(job_id: str):
     """Background task function to retrain all models."""

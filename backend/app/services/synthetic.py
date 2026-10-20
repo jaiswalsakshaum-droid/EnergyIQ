@@ -181,79 +181,51 @@ def generate_building_series(
     is_anomaly = np.zeros(n, dtype=bool)
     injected_anomalies: List[dict] = []
     
-    # Injection 1: Overnight HVAC left on
-    if b_name in ["North Tower", "Innovation Hub"] and n >= 48:
-        # Find overnight hours (hour == 23)
-        night_indices = np.where((timestamps.hour == 23))[0]
-        if len(night_indices) > 0:
-            target_night = night_indices[len(night_indices) // 2]
-            start_idx = target_night
-            end_idx = min(n - 1, start_idx + 7)
-            kwh[start_idx:end_idx] += 38.0 * cooling_k
-            peak_kw[start_idx:end_idx] = kwh[start_idx:end_idx] * 1.15
+    # Injections tailored across recent 30-day window and seasonal period
+    recent_injections = []
+    if b_name == "North Tower" and n >= 72:
+        # Overnight usage 2 days ago (hours 22 to 05)
+        idx_overnight = n - 50
+        recent_injections.append((idx_overnight, 7, "Overnight usage", "High", 1.95, "Overnight chiller circuit left active outside BMS schedule in North Tower."))
+        # Demand spike 14 days ago
+        if n >= 350:
+            idx_spike = n - 336
+            recent_injections.append((idx_spike, 3, "Usage spike", "High", 1.85, "Chiller stage-2 concurrent startup spike in North Tower."))
+    elif b_name == "Innovation Hub" and n >= 120:
+        # Demand spike 4 days ago
+        idx_spike = n - 96
+        recent_injections.append((idx_spike, 2, "Usage spike", "Medium", 1.80, "Unplanned server room AHU load surge in Innovation Hub."))
+    elif b_name == "West Annex" and n >= 200:
+        # Sudden drop 8 days ago
+        idx_drop = n - 192
+        recent_injections.append((idx_drop, 4, "Sudden drop", "Medium", 0.25, "Floor-3 sub-distribution breaker tripped in West Annex."))
+    elif b_name == "South Studio" and n >= 400:
+        # Sensor flatline / zero 16 days ago
+        idx_fault = n - 384
+        recent_injections.append((idx_fault, 6, "Sensor fault", "Medium", 0.0, "RS-485 Modbus telemetry communication flatline in South Studio."))
+    elif b_name == "Central Library" and n >= 500:
+        # Overnight usage 22 days ago
+        idx_lib = n - 528
+        recent_injections.append((idx_lib, 8, "Overnight usage", "Medium", 1.70, "Unscheduled library study wing ventilation running overnight."))
+
+    for start_idx, dur, a_type, sev, mult, desc in recent_injections:
+        if 0 <= start_idx < n:
+            end_idx = min(n - 1, start_idx + dur)
+            if a_type == "Sensor fault":
+                kwh[start_idx:end_idx] = 0.0
+                peak_kw[start_idx:end_idx] = 0.0
+            else:
+                kwh[start_idx:end_idx] *= mult
+                peak_kw[start_idx:end_idx] *= (mult * 1.08)
             is_anomaly[start_idx:end_idx] = True
             injected_anomalies.append({
                 "building": b_name,
                 "start_time": timestamps[start_idx].isoformat(),
                 "end_time": timestamps[end_idx].isoformat(),
-                "anomaly_type": "Overnight usage",
-                "severity": "Medium",
-                "description": f"Overnight chiller circuit left active outside BMS occupancy schedule in {b_name}."
+                "anomaly_type": a_type,
+                "severity": sev,
+                "description": desc,
             })
-
-    # Injection 2: Sudden demand spike
-    if n >= 24:
-        spike_indices = [int(n * 0.25), int(n * 0.70)] if n >= 200 else [int(n * 0.5)]
-        for s_idx in spike_indices:
-            if s_idx < n:
-                dur = min(3, max(1, n - s_idx - 1))
-                end_idx = min(n - 1, s_idx + dur)
-                kwh[s_idx:end_idx] *= 1.85
-                peak_kw[s_idx:end_idx] *= 2.10
-                is_anomaly[s_idx:end_idx] = True
-                injected_anomalies.append({
-                    "building": b_name,
-                    "start_time": timestamps[s_idx].isoformat(),
-                    "end_time": timestamps[end_idx].isoformat(),
-                    "anomaly_type": "Usage spike",
-                    "severity": "High",
-                    "description": f"Unplanned peak demand spike (1.85x normal) detected in {b_name}."
-                })
-
-    # Injection 3: Sudden drop (Substation breaker trip)
-    if n >= 30:
-        drop_idx = int(n * 0.40)
-        dur = min(4, max(1, n - drop_idx - 1))
-        end_idx = min(n - 1, drop_idx + dur)
-        kwh[drop_idx:end_idx] *= 0.25
-        peak_kw[drop_idx:end_idx] *= 0.30
-        is_anomaly[drop_idx:end_idx] = True
-        injected_anomalies.append({
-            "building": b_name,
-            "start_time": timestamps[drop_idx].isoformat(),
-            "end_time": timestamps[end_idx].isoformat(),
-            "anomaly_type": "Sudden drop",
-            "severity": "Medium",
-            "description": f"Abrupt 75% load drop consistent with feeder breaker trip in {b_name}."
-        })
-
-    # Injection 4: Sensor faults (RS-485 Modbus zero or stuck values)
-    if n >= 40:
-        stuck_idx = int(n * 0.85)
-        dur = min(6, max(1, n - stuck_idx - 1))
-        end_idx = min(n - 1, stuck_idx + dur)
-        val = float(kwh[stuck_idx])
-        kwh[stuck_idx:end_idx] = val
-        peak_kw[stuck_idx:end_idx] = val * 1.05
-        is_anomaly[stuck_idx:end_idx] = True
-        injected_anomalies.append({
-            "building": b_name,
-            "start_time": timestamps[stuck_idx].isoformat(),
-            "end_time": timestamps[end_idx].isoformat(),
-            "anomaly_type": "Sensor fault",
-            "severity": "Low",
-            "description": f"Telemetry flat-line / stuck sensor reading across {dur} hours in {b_name}."
-        })
 
     df = pd.DataFrame({
         "timestamp": timestamps,
