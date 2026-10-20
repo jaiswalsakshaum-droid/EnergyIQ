@@ -55,12 +55,12 @@ Running checklist for building out the full-stack AI-Powered Building Energy Int
   - [x] Endpoints: `GET /api/anomalies`, `PATCH /api/anomalies/{id}/status`, `GET /api/anomalies/export.csv`, `GET /api/models/anomaly-metrics`
   - [x] Persistent status updates and threshold feedback loop in SQLite
 
-- [ ] **Phase 7: Explainability Layer (SHAP & Plain Language)**
-  - [ ] SHAP computation service (`app/services/explain.py`)
-  - [ ] Global feature importances based on mean |SHAP|
-  - [ ] Local waterfall contributions and template-based natural language explanations
-  - [ ] Endpoints: `GET /api/forecast/explain`, `GET /api/anomalies/{id}/explain`
-  - [ ] Caching for sub-2s responses
+- [x] **Phase 7: Explainability Layer (SHAP & Plain Language)**
+  - [x] SHAP computation service (`app/services/explain.py`)
+  - [x] Global feature importances based on mean |SHAP|
+  - [x] Local waterfall contributions and template-based natural language explanations
+  - [x] Endpoints: `GET /api/forecast/explain`, `GET /api/anomalies/{id}/explain`
+  - [x] Caching for sub-2s responses
 
 - [ ] **Phase 8: Drift Monitoring, Retraining Pipeline & Data-Driven Simulator**
   - [ ] Drift service (`app/services/drift.py`) with KS-test & PSI on key features and rolling MAE

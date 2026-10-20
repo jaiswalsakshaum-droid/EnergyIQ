@@ -54,9 +54,14 @@ def get_model_benchmarks(db: Session = Depends(get_db)):
         ModelBenchmarkItem(name="Seasonal Naive (t-168h)", mae="7.45", rmse="9.82", mape="9.1%", r2="0.774", time="<0.1s", tone="", is_best=False),
     ]
 
+from app.services.explain import compute_global_shap_importance
+
 @router.get("/features", response_model=List[FeatureImportanceItem])
-def get_feature_importance():
+def get_feature_importance(db: Session = Depends(get_db)):
     """Returns SHAP / tree-based feature importance weights."""
+    shap_items = compute_global_shap_importance(db)
+    if shap_items:
+        return shap_items
     meta = load_model_registry()
     if meta and "feature_importance" in meta:
         return [FeatureImportanceItem(**f) for f in meta["feature_importance"]]

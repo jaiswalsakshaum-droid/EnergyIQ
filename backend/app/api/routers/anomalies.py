@@ -144,51 +144,15 @@ def export_anomalies_csv(
         headers={"Content-Disposition": 'attachment; filename="energyiq-anomalies.csv"'},
     )
 
+from app.services.explain import explain_anomaly_incident
+
 @router.get("/{incident_id}/explain", response_model=AnomalyExplanation)
 def explain_anomaly(
     incident_id: int,
     db: Session = Depends(get_db),
 ):
     """Provides plain-language root-cause diagnosis and SHAP waterfall contributions for an anomaly."""
-    inc = db.query(AnomalyIncident).filter(AnomalyIncident.id == incident_id).first()
-    if not inc:
-        raise HTTPException(status_code=404, detail=f"Anomaly incident #{incident_id} not found")
-
-    deviation = round(inc.actual - inc.expected, 1)
-    dev_pct = round((abs(deviation) / max(1.0, inc.expected)) * 100.0, 1)
-
-    causes = [
-        ShapContribution(
-            feature="unaccounted_hvac_load",
-            impact_kwh=round(deviation * 0.65, 1),
-            display_name="Overnight chiller continuous operation outside schedule",
-            is_positive=(deviation > 0),
-        ),
-        ShapContribution(
-            feature="plug_loads",
-            impact_kwh=round(deviation * 0.25, 1),
-            display_name="Residual workstation and lighting standby baseload",
-            is_positive=(deviation > 0),
-        ),
-    ]
-
-    plain_text = (
-        f"Signal #{inc.id} ({inc.anomaly_type}) in {inc.building} at {inc.time}: "
-        f"actual load reached {inc.actual} kWh versus {inc.expected} kWh expected ({'+' if deviation > 0 else ''}{dev_pct}% deviation). "
-        f"{inc.detail}"
-    )
-
-    return AnomalyExplanation(
-        anomaly_id=inc.id,
-        building=inc.building,
-        time=inc.time,
-        actual=inc.actual,
-        expected=inc.expected,
-        deviation_kwh=deviation,
-        deviation_pct=dev_pct,
-        anomaly_type=inc.anomaly_type,
-        severity=inc.severity,
-        primary_causes=causes,
-        plain_text_explanation=plain_text,
-        recommended_action=inc.recommendation,
-    )
+    try:
+        return explain_anomaly_incident(incident_id, db)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
