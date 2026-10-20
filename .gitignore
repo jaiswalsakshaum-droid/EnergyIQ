@@ -40,3 +40,13 @@ htmlcov/
 *.suo
 *.ntvs*
 *.njsproj
+
+# Data & Models
+*.db
+*.sqlite
+*.sqlite3
+backend/data/*.db
+backend/data/processed/
+backend/models/*.joblib
+backend/models/*.pkl
+backend/models/*.json
