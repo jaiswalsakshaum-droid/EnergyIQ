@@ -1,0 +1,3 @@
+- [ ] Build the EnergyIQ dashboard with six interactive demo views.
+- [ ] Add responsive styling, route metadata, and focused simulator tests.
+- [ ] Verify preview output and review this roadmap.
